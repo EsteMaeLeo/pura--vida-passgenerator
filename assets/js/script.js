@@ -26,10 +26,16 @@ var passwordUser = {
     numeric: false,
     position: 0,
   },
-  
-  lowercase: false,
-  uppercase: false,
-  password: [],
+
+  optionLowercase:{
+    lowercase: false,
+    position:1,
+  },
+  OptionUpperCase:{
+    uppercase: false,
+    position:0,
+  },
+  passwordOption: [],
   password2: "",
   counterOption: 0,
   setLengthPass: function () {
@@ -49,6 +55,8 @@ var passwordUser = {
     if (this.optionCharacter.character) {
       this.optionCharacter.position = 1;
       this.counterOption++;
+      this.passwordOption.push(this.optionCharacter.position);
+      
     }
   },
 
@@ -58,6 +66,7 @@ var passwordUser = {
     if (this.optionNumeric.numeric) {
       this.optionNumeric.position = 2;
       this.counterOption++;
+      this.passwordOption.push(this.optionNumeric.position);
     }
   },
 
@@ -66,7 +75,9 @@ var passwordUser = {
     this.lowercase = window.confirm("Click OK to confirm including lowercase characters");
 
     if (this.lowercase) {
+      this.optionLowercase.position = 3;
       this.counterOption++;
+      this.passwordOption.push(this.optionLowercase.position);
     }
   },
 
@@ -75,7 +86,9 @@ var passwordUser = {
     this.uppercase = window.confirm("Click OK to confirm including uppercase characters");
 
     if (this.uppercase) {
+      this.OptionUpperCase.position = 4;
       this.counterOption++;
+      this.passwordOption.push(this.OptionUpperCase.position);
     }
   }
 
@@ -88,6 +101,7 @@ var valLenghtPassword = function (password) {
   if (password.lengthPass !== "" && password.lengthPass !== null) {
     //convert the value to integer
     password.lengthPass = parseInt(password.lengthPass);
+    password.counterOption = 0;
     if (password.lengthPass < 8 || password.lengthPass > 128) {
       window.alert("Length of the password does not meet criteria");
       //clear value to keep loop until input the correct lenght of the password
@@ -105,13 +119,33 @@ var randomNumber = function (min, max) {
 
 
 var createUserPass = function () {
-
+  var counter = 1;
   var randomIndex = 0;
+  passwordTemp = [];
+  passwordUser.password2 = "";
 
+  for (var i = 0; i < passwordUser.lengthPass; i++) {
+    var optChar = randomNumber(1, passwordUser.counterOption);
+    if(counter>4){
+      counter=1;
+    }
+    counter++;
+    if(counter>4){
+      counter=1;
+    }
+  }
+  console.log(passwordUser.passwordOption);
+  for (var i = 0; i < passwordUser.lengthPass; i++) {
+    randomIndex = passwordUser.passwordOption[Math.floor(Math.random() * passwordUser.passwordOption.length)]
+    passwordTemp.push(randomIndex);
+  }
+  console.log(passwordTemp);
   for (var i = 0; i < passwordUser.lengthPass; i++) {
     //random to pick different character 
     var optChar = randomNumber(1, passwordUser.counterOption);
-    console.log(optChar);
+  
+   // passwordUser.passwordOption.push(optChar);
+
     switch (optChar) {
       case passwordUser.optionCharacter.position:
         if (passwordUser.optionCharacter.character) {
@@ -122,23 +156,25 @@ var createUserPass = function () {
 
     }
 
-    //if the user wants special characters
-    if (passwordUser.character) {
-      randomNumber(0, specialChar.length);
-    }
+    /*    //if the user wants special characters
+        if (passwordUser.character) {
+          randomNumber(0, specialChar.length);
+        }*/
 
   }
 
+
+
 }
 
-//
-var randomPickCharacters = function () {
-
+// pass the different array to return a random character
+var randomPickCharacters = function (arrayChar) {
+  var randomIndex = randomNumber(0, arrayChar.length);
+  return arrayChar[randomIndex];
 }
 
 var generatePassword = function () {
-  console.log(specialChar);
-  console.log(specialChar[13]);
+
   passwordUser.setLengthPass();
 
   passwordUser.setspecialChar();
