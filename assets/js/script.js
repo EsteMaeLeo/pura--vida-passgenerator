@@ -203,10 +203,17 @@ var validateOne = function () {
 
   while (!passwordUser.optionCharacter.character && !passwordUser.optionNumeric.numeric &&
     !passwordUser.optionLowercase.lowercase && !passwordUser.OptionUpperCase.uppercase) {
+
     passwordUser.setspecialChar();
     passwordUser.setNumeric();
     passwordUser.setLowercase();
     passwordUser.setUppercase();
+
+    if (!passwordUser.optionCharacter.character && !passwordUser.optionNumeric.numeric &&
+      !passwordUser.optionLowercase.lowercase && !passwordUser.OptionUpperCase.uppercase) {
+
+        window.alert("Must select at least one character type");
+    }
   }
 }
 
