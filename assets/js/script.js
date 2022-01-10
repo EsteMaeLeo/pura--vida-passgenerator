@@ -150,7 +150,7 @@ var createArray = function (randomArray) {
 }
 
 var createUserPass = function () {
-  var counter = 1;
+
   var randomIndex = 0;
   passwordTemp = [];
   passwordUser.password2 = "";
@@ -159,13 +159,12 @@ var createUserPass = function () {
   //passing a temporal array
   createArray(passwordTemp);
   //using the new array lets pick each option
-
+//switch to pick option according the criteria chose by the user and concatenate to the password variable in the object
   for (var i = 0; i < passwordTemp.length; i++) {
     switch (passwordTemp[i]) {
       case passwordUser.optionCharacter.position:
         if (passwordUser.optionCharacter.character) {
           randomIndex = randomNumber(0, specialChar.length - 1);
-          //passwordUser.password.push(specialChar[randomIndex]);
           passwordUser.password2 = passwordUser.password2 + specialChar[randomIndex];
 
         }
@@ -173,21 +172,19 @@ var createUserPass = function () {
       case passwordUser.optionNumeric.position:
         if (passwordUser.optionNumeric.numeric) {
           randomIndex = randomNumber(0, numerChar.length - 1);
-          //passwordUser.password.push(specialChar[randomIndex]);
           passwordUser.password2 = passwordUser.password2 + numerChar[randomIndex];
         }
         break;
       case passwordUser.optionLowercase.position:
         if (passwordUser.optionLowercase.lowercase) {
           randomIndex = randomNumber(0, abcChar.length - 1);
-          //passwordUser.password.push(specialChar[randomIndex]);
           passwordUser.password2 = passwordUser.password2 + abcChar[randomIndex];
         }
         break;
       case passwordUser.OptionUpperCase.position:
         if (passwordUser.OptionUpperCase.uppercase) {
           randomIndex = randomNumber(0, abcChar.length - 1);
-          //passwordUser.password.push(specialChar[randomIndex]);
+          //use same array for lowercase but transform to uppercase using ToUpperCase
           passwordUser.password2 = passwordUser.password2 + abcChar[randomIndex].toUpperCase();
         }
         break;
