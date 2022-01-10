@@ -15,6 +15,10 @@ function writePassword() {
   //after display clean variables
   passwordUser.passwordOption = [];
   password: "";
+  passwordUser.optionCharacter.character = false;
+  passwordUser.optionNumeric.numeric = false;
+  passwordUser.optionLowercase.lowercase = false;
+  passwordUser.OptionUpperCase.uppercase = false;
 }
 //object password
 var passwordUser = {
@@ -133,7 +137,6 @@ var createArray = function (randomArray) {
     }
   }
   //if found a missing now check repeat number and replace with the missing
-  let duplicates = []
   if (missing !== 0) {
     for (var i = 0; i < randomArray.length; i++) {
       if (randomArray[i + 1] === randomArray[i]) {
@@ -155,7 +158,7 @@ var createUserPass = function () {
   //passing a temporal array
   createArray(passwordTemp);
   //using the new array lets pick each option
-//switch to pick option according the criteria chose by the user and concatenate to the password variable in the object
+  //switch to pick option according the criteria chose by the user and concatenate to the password variable in the object
   for (var i = 0; i < passwordTemp.length; i++) {
     switch (passwordTemp[i]) {
       case passwordUser.optionCharacter.position:
@@ -195,14 +198,23 @@ var randomPickCharacters = function (arrayChar) {
   return arrayChar[randomIndex];
 }
 
+//validation at leat choose one option
+var validateOne = function () {
+
+  while (!passwordUser.optionCharacter.character && !passwordUser.optionNumeric.numeric &&
+    !passwordUser.optionLowercase.lowercase && !passwordUser.OptionUpperCase.uppercase) {
+    passwordUser.setspecialChar();
+    passwordUser.setNumeric();
+    passwordUser.setLowercase();
+    passwordUser.setUppercase();
+  }
+}
+
 var generatePassword = function () {
 
   passwordUser.setLengthPass();
 
-  passwordUser.setspecialChar();
-  passwordUser.setNumeric();
-  passwordUser.setLowercase();
-  passwordUser.setUppercase();
+  validateOne();
   createUserPass();
   return passwordUser.password;
 
