@@ -74,9 +74,9 @@ var passwordUser = {
 
   setLowercase: function () {
     //ask if they want the lowercase characters 
-    this.lowercase = window.confirm("Click OK to confirm including lowercase characters");
+    this.optionLowercase.lowercase = window.confirm("Click OK to confirm including lowercase characters");
 
-    if (this.lowercase) {
+    if (this.optionLowercase.lowercase) {
       this.optionLowercase.position = 3;
       this.counterOption++;
       this.passwordOption.push(this.optionLowercase.position);
@@ -85,9 +85,9 @@ var passwordUser = {
 
   setUppercase: function () {
     //ask if they want the uppercase characters 
-    this.uppercase = window.confirm("Click OK to confirm including uppercase characters");
+    this.OptionUpperCase.uppercase = window.confirm("Click OK to confirm including uppercase characters");
 
-    if (this.uppercase) {
+    if (this.OptionUpperCase.uppercase) {
       this.OptionUpperCase.position = 4;
       this.counterOption++;
       this.passwordOption.push(this.OptionUpperCase.position);
@@ -138,10 +138,11 @@ var createArray = function (randomArray) {
   }
   //if found a missing now check repeat number and replace with the missing
   let duplicates = []
-  if(missing !== 0){
+  if (missing !== 0) {
     for (var i = 0; i < randomArray.length; i++) {
       if (randomArray[i + 1] === randomArray[i]) {
         randomArray[i + 1] = missing;
+        break;
       }
     }
   }
@@ -153,51 +154,46 @@ var createUserPass = function () {
   var randomIndex = 0;
   passwordTemp = [];
   passwordUser.password2 = "";
-   var noFound = false;
 
-  console.log(passwordUser.passwordOption);
-  /*for (var i = 0; i < passwordUser.lengthPass; i++) {
-    var randomOption = passwordUser.passwordOption[Math.floor(Math.random() * passwordUser.passwordOption.length)]
-    if (i === passwordUser.passwordOption.length) {
-      for (var j = 0; j < passwordUser.passwordOption; j++) {
-        for (var k = 0; k < passwordTemp.length; k++) {
-          if (passwordUser.passwordOption[j] !== passwordTemp.length[k]) {
-
-          }
-        }
-      }
-    } else {
-      passwordTemp.push(randomIndex);
-    }
-  }*/
+  //function to generate array with random pick of options for character
+  //passing a temporal array
   createArray(passwordTemp);
-  console.log(passwordTemp);
+  //using the new array lets pick each option
 
-  for (var i = 0; i < passwordUser.lengthPass; i++) {
-    //random to pick different character 
-    var optChar = randomNumber(1, passwordUser.counterOption);
-
-    // passwordUser.passwordOption.push(optChar);
-
-    switch (optChar) {
+  for (var i = 0; i < passwordTemp.length; i++) {
+    switch (passwordTemp[i]) {
       case passwordUser.optionCharacter.position:
         if (passwordUser.optionCharacter.character) {
-          randomIndex = randomNumber(0, specialChar.length);
+          randomIndex = randomNumber(0, specialChar.length - 1);
           //passwordUser.password.push(specialChar[randomIndex]);
           passwordUser.password2 = passwordUser.password2 + specialChar[randomIndex];
+
         }
+        break;
+      case passwordUser.optionNumeric.position:
+        if (passwordUser.optionNumeric.numeric) {
+          randomIndex = randomNumber(0, numerChar.length - 1);
+          //passwordUser.password.push(specialChar[randomIndex]);
+          passwordUser.password2 = passwordUser.password2 + numerChar[randomIndex];
+        }
+        break;
+      case passwordUser.optionLowercase.position:
+        if (passwordUser.optionLowercase.lowercase) {
+          randomIndex = randomNumber(0, abcChar.length - 1);
+          //passwordUser.password.push(specialChar[randomIndex]);
+          passwordUser.password2 = passwordUser.password2 + abcChar[randomIndex];
+        }
+        break;
+      case passwordUser.OptionUpperCase.position:
+        if (passwordUser.OptionUpperCase.uppercase) {
+          randomIndex = randomNumber(0, abcChar.length - 1);
+          //passwordUser.password.push(specialChar[randomIndex]);
+          passwordUser.password2 = passwordUser.password2 + abcChar[randomIndex].toUpperCase();
+        }
+        break;
 
     }
-
-    /*    //if the user wants special characters
-        if (passwordUser.character) {
-          randomNumber(0, specialChar.length);
-        }*/
-
   }
-
-
-
 }
 
 // pass the different array to return a random character
@@ -214,7 +210,6 @@ var generatePassword = function () {
   passwordUser.setNumeric();
   passwordUser.setLowercase();
   passwordUser.setUppercase();
-  debugger;
   createUserPass();
   return passwordUser.password2;
 
